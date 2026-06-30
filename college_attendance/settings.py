@@ -28,8 +28,7 @@ SECRET_KEY = 'django-insecure-%1n6%(!82h2ufkpof6e_+ux5#@(bmv*c*u62oe3!xlpin+74zt
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -143,21 +142,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
-DEBUG = True
-
-ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'localhost',
-    '.railway.app',
-]
-import os
 
 STATIC_URL = '/static/'
 
@@ -178,6 +163,8 @@ ALLOW_MULTIPLE_ATTENDANCE_SAME_DAY = True
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-STATICFILES_STORAGE = (
-    'whitenoise.storage.CompressedManifestStaticFilesStorage'
-)
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
