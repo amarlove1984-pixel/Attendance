@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Attendance Report</h2>
+
+    <form method="get" class="row g-3 mb-4">
+
+        <!-- Semester -->
+        <div class="col-md-3">
+            <select name="semester" class="form-control">
+
+                <option value="">All Semesters</option>
+
+                {% for sem in semesters %}
+                <option value="{{ sem.id }}"
+                    {% if selected_semester == sem.id|stringformat:"s" %}
+                    selected
+                    {% endif %}>
+
+                    {{ sem.name }}
+
+                </option>
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <!-- Subject -->
+        <div class="col-md-3">
+            <select name="subject" class="form-control">
+
+                <option value="">All Subjects</option>
+
+                {% for sub in subjects %}
+                <option value="{{ sub.id }}"
+                    {% if selected_subject == sub.id|stringformat:"s" %}
+                    selected
+                    {% endif %}>
+
+                    {{ sub.code }} - {{ sub.name }}
+
+                </option>
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <!-- Paper -->
+        <div class="col-md-2">
+            <select name="section" class="form-control">
+
+                <option value="">All Papers</option>
+
+                {% for sec in sections %}
+                <option value="{{ sec.id }}"
+                    {% if selected_section == sec.id|stringformat:"s" %}
+                    selected
+                    {% endif %}>
+
+                    {{ sec.name }}
+
+                </option>
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <!-- Start Date -->
+        <div class="col-md-2">
+            <input type="date"
+                   name="start_date"
+                   class="form-control">
+        </div>
+
+        <!-- End Date -->
+        <div class="col-md-2">
+            <input type="date"
+                   name="end_date"
+                   class="form-control">
+        </div>
+
+        <!-- Month-Year -->
+        <div class="col-md-3">
+
+            <select name="month_year"
+                    class="form-control">
+
+                <option value="">
+                    Select Month-Year
+                </option>
+
+                <option value="2025-01">January 2025</option>
+                <option value="2025-02">February 2025</option>
+                <option value="2025-03">March 2025</option>
+                <option value="2025-04">April 2025</option>
+                <option value="2025-05">May 2025</option>
+                <option value="2025-06">June 2025</option>
+                <option value="2025-07">July 2025</option>
+                <option value="2025-08">August 2025</option>
+                <option value="2025-09">September 2025</option>
+                <option value="2025-10">October 2025</option>
+                <option value="2025-11">November 2025</option>
+                <option value="2025-12">December 2025</option>
+
+                <option value="2026-01">January 2026</option>
+                <option value="2026-02">February 2026</option>
+                <option value="2026-03">March 2026</option>
+                <option value="2026-04">April 2026</option>
+                <option value="2026-05">May 2026</option>
+                <option value="2026-06">June 2026</option>
+                <option value="2026-07">July 2026</option>
+                <option value="2026-08">August 2026</option>
+                <option value="2026-09">September 2026</option>
+                <option value="2026-10">October 2026</option>
+                <option value="2026-11">November 2026</option>
+                <option value="2026-12">December 2026</option>
+
+            </select>
+
+        </div>
+
+        <div class="col-md-2">
+            <button class="btn btn-primary w-100">
+                Filter
+            </button>
+        </div>
+
+    </form>
+
+    <table class="table table-bordered table-striped">
+
+        <thead class="table-dark">
+
+            <tr>
+                <th>Date</th>
+                <th>Roll</th>
+                <th>Name</th>
+                <th>Semester</th>
+                <th>Subject</th>
+                <th>Paper</th>
+                <th>Component</th>
+                <th>Status</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for r in records %}
+
+            <tr>
+
+                <td>{{ r.attendance_date }}</td>
+                <td>{{ r.enrollment.student.roll }}</td>
+                <td>{{ r.enrollment.student.name }}</td>
+                <td>{{ r.enrollment.semester.name }}</td>
+                <td>{{ r.enrollment.subject.name }}</td>
+                <td>{{ r.enrollment.section.name }}</td>
+                <td>{{ r.enrollment.component }}</td>
+                <td>{{ r.get_status_display }}</td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="8" class="text-center">
+                    No records found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+<select name="subject" class="form-control">
+    <option value="">All Subjects</option>
+
+    {% for subject in subjects %}
+        <option value="{{ subject.id }}"
+            {% if selected_subject == subject.id|stringformat:"s" %}
+                selected
+            {% endif %}>
+            {{ subject.name }}
+        </option>
+    {% endfor %}
+</select>
+
+{% endblock %}

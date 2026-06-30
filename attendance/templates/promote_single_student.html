@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-success text-white">
+        Promote Individual Student
+    </div>
+
+    <div class="card-body">
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <label>Select Student</label>
+
+            <select name="student"
+                    class="form-control mb-3">
+
+                {% for student in students %}
+
+                    <option value="{{ student.id }}">
+                        {{ student.roll }} - {{ student.name }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+            <label>Move To Semester</label>
+
+            <select name="new_semester"
+                    class="form-control mb-3">
+
+                {% for sem in semesters %}
+
+                    <option value="{{ sem.id }}">
+                        {{ sem.name }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+            <button class="btn btn-success">
+                Promote Student
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

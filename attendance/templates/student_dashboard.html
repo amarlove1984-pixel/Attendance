@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>{{ student.name }}</h2>
+
+<h3>Attendance Percentage:
+{{ percentage }}%</h3>
+
+<table class="table">
+
+{% for r in records %}
+
+<tr>
+
+<td>{{ r.attendance_date }}</td>
+
+<td>{{ r.enrollment.subject.name }}</td>
+
+<td>{{ r.get_status_display }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

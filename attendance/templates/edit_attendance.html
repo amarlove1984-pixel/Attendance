@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Edit Attendance</h2>
+
+<table class="table">
+
+{% for r in records %}
+
+<tr>
+
+<form method="post">
+
+{% csrf_token %}
+
+<td>{{ r.enrollment.student.name }}</td>
+
+<td>
+
+<input type="hidden"
+       name="attendance_id"
+       value="{{ r.id }}">
+
+<select name="status">
+
+<option value="P">Present</option>
+
+<option value="A">Absent</option>
+
+</select>
+
+</td>
+
+<td>
+
+<button class="btn btn-primary">
+Update
+</button>
+
+</td>
+
+</form>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h2>Analytics Dashboard</h2>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <div class="card bg-success text-white">
+
+                        <div class="card-body text-center">
+
+                            <h4>Present</h4>
+
+                            <h1>{{ present }}</h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="card bg-danger text-white">
+
+                        <div class="card-body text-center">
+
+                            <h4>Absent</h4>
+
+                            <h1>{{ absent }}</h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="card bg-info text-white">
+
+                        <div class="card-body text-center">
+
+                            <h4>Students</h4>
+
+                            <h1>{{ students }}</h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <div class="text-center">
+
+                <img src="data:image/png;base64,{{ graph }}"
+                     class="img-fluid">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,314 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+```
+<!-- PROFILE HEADER -->
+<div class="card shadow-lg border-0 mb-4 bg-primary text-white">
+
+    <div class="card-body">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-2 text-center">
+
+                {% if teacher_profile and teacher_profile.photo %}
+                    <img src="{{ teacher_profile.photo.url }}"
+                         class="rounded-circle border border-white"
+                         width="120"
+                         height="120">
+                {% else %}
+                    <img src="https://via.placeholder.com/120"
+                         class="rounded-circle border border-white">
+                {% endif %}
+
+                <br><br>
+
+                <a href="{% url 'edit_teacher_profile' %}"
+                   class="btn btn-light btn-sm">
+
+                    ✏️ Edit My Profile
+
+                </a>
+
+            </div>
+
+            <div class="col-md-10">
+
+                <h1 class="fw-bold">
+                    Welcome,
+                    {{ request.user.get_full_name|default:request.user.username }}
+                </h1>
+
+                {% if teacher_profile %}
+
+                    <h4>
+                        {{ teacher_profile.designation|default:"Teacher" }}
+                    </h4>
+
+                    <h5>
+                        {{ teacher_profile.department }}
+                    </h5>
+
+                {% else %}
+
+                    <h4>Administrator</h4>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<h2 class="text-center mb-4">
+    College Attendance Dashboard
+</h2>
+
+
+<!-- STATISTICS -->
+<div class="row">
+
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="card bg-primary text-white shadow">
+
+            <div class="card-body text-center">
+
+                <h5>Total Students</h5>
+                <h1 class="display-5 fw-bold">
+                    {{ student_count }}
+                </h1>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="card bg-success text-white shadow">
+
+            <div class="card-body text-center">
+
+                <h5>Total Subjects</h5>
+                <h1 class="display-5 fw-bold">
+                    {{ subject_count }}
+                </h1>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="card bg-warning text-dark shadow">
+
+            <div class="card-body text-center">
+
+                <h5>Total Enrollments</h5>
+                <h1 class="display-5 fw-bold">
+                    {{ enrollment_count }}
+                </h1>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="card bg-danger text-white shadow">
+
+            <div class="card-body text-center">
+
+                <h5>Total Classes Taken</h5>
+                <h1 class="display-5 fw-bold">
+                    {{ attendance_count }}
+                </h1>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<!-- PRESENT / ABSENT -->
+<div class="row mb-4">
+
+    <div class="col-md-6">
+
+        <div class="card border-success shadow">
+
+            <div class="card-body text-center">
+
+                <h3 class="text-success">
+                    ✔ Present Classes
+                </h3>
+
+                <h1>
+                    {{ present_count }}
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="card border-danger shadow">
+
+            <div class="card-body text-center">
+
+                <h3 class="text-danger">
+                    ✘ Absent Classes
+                </h3>
+
+                <h1>
+                    {{ absent_count }}
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ATTENDANCE OPERATIONS -->
+<div class="card shadow mb-4">
+
+    <div class="card-header bg-primary text-white">
+        <h4>Attendance Operations</h4>
+    </div>
+
+    <div class="card-body text-center">
+
+        <a href="{% url 'take_attendance' %}"
+           class="btn btn-primary btn-lg m-2">
+           📝 Take Attendance
+        </a>
+
+        <a href="{% url 'attendance_report' %}"
+           class="btn btn-success btn-lg m-2">
+           📋 Attendance Report
+        </a>
+
+        <a href="{% url 'percentage_report' %}"
+           class="btn btn-warning btn-lg m-2">
+           📊 Percentage Report
+        </a>
+
+        <a href="{% url 'defaulter_report' %}"
+           class="btn btn-danger btn-lg m-2">
+           ⚠ Defaulters
+        </a>
+
+        <a href="{% url 'analytics_dashboard' %}"
+           class="btn btn-info btn-lg m-2">
+           📈 Analytics
+        </a>
+
+    </div>
+
+</div>
+
+
+{% if user.is_superuser %}
+
+<!-- STUDENT MANAGEMENT -->
+<div class="card shadow mb-4">
+
+    <div class="card-header bg-success text-white">
+        <h4>Student Management</h4>
+    </div>
+
+    <div class="card-body text-center">
+
+        <a href="{% url 'upload_students' %}"
+           class="btn btn-dark btn-lg m-2">
+           📂 Upload Students
+        </a>
+
+        <a href="{% url 'promote_single_student' %}"
+           class="btn btn-outline-success btn-lg m-2">
+           ⬆ Promote Student
+        </a>
+
+        <a href="{% url 'delete_single_student' %}"
+           class="btn btn-outline-danger btn-lg m-2">
+           🗑 Delete Student
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- SEMESTER MANAGEMENT -->
+<div class="card shadow mb-4">
+
+    <div class="card-header bg-warning">
+        <h4>Semester Management</h4>
+    </div>
+
+    <div class="card-body text-center">
+
+        <a href="{% url 'promote_students' %}"
+           class="btn btn-success btn-lg m-2">
+           ⬆ Promote Semester
+        </a>
+
+        <a href="{% url 'delete_semester_students' %}"
+           class="btn btn-warning btn-lg m-2">
+           🗑 Delete Semester Students
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- SYSTEM TOOLS -->
+<div class="card shadow mb-4">
+
+    <div class="card-header bg-danger text-white">
+        <h4>System Tools</h4>
+    </div>
+
+    <div class="card-body text-center">
+
+        <form method="post"
+              action="{% url 'clear_all_data' %}">
+
+            {% csrf_token %}
+
+            <button type="submit"
+                    class="btn btn-danger btn-lg"
+                    onclick="return confirm('WARNING: This will permanently delete ALL attendance data. Continue?')">
+
+                🏭 Factory Reset
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endif %}
+```
+
+</div>
+
+{% endblock %}

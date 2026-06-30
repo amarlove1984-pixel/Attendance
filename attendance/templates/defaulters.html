@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Defaulters</h2>
+
+<table class="table">
+
+<tr>
+<th>Name</th>
+<th>Percentage</th>
+</tr>
+
+{% for s in students %}
+
+<tr>
+
+<td>{{ s.student.name }}</td>
+
+<td>{{ s.percentage }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

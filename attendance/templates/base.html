@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Attendance System</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <div class="container">
+
+        <a class="navbar-brand"
+           href="{% url 'dashboard' %}">
+            Attendance System
+        </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#menu">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+        <link rel="manifest"
+            href="{% static 'manifest.json' %}">
+
+        <div class="collapse navbar-collapse"
+             id="menu">
+
+            <ul class="navbar-nav ms-auto">
+
+                {% if user.is_staff %}
+
+                <li class="nav-item">
+                    <span class="badge bg-info mt-2">
+
+                    {% if user.is_superuser %}
+                        Admin
+                        {% elif user.is_staff %}
+                            Teacher
+                        {% else %}
+                            Student
+                        {% endif %}
+
+                    </span>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'take_attendance' %}">
+                        Take Attendance
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'attendance_report' %}">
+                        Reports
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'percentage_report' %}">
+                        Percentage
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'defaulter_report' %}">
+                        Defaulters
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'student_history' %}">
+                        History
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'analytics_dashboard' %}">
+                        Analytics
+                    </a>
+                </li>
+
+                {% endif %}
+
+                {% if not user.is_staff %}
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'student_dashboard' %}">
+                        My Attendance
+                    </a>
+                </li>
+
+                {% endif %}
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'profile' %}">
+                        Profile
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-danger"
+                       href="{% url 'logout' %}">
+                        Logout
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<div class="container mt-4">
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-info">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-danger text-white">
+        Delete Individual Student
+    </div>
+
+    <div class="card-body">
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <label>Select Student</label>
+
+            <select name="student"
+                    class="form-control mb-3">
+
+                {% for student in students %}
+
+                    <option value="{{ student.id }}">
+                        {{ student.roll }} - {{ student.name }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+            <button class="btn btn-danger"
+                    onclick="return confirm(
+                    'Delete this student permanently?')">
+
+                Delete Student
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

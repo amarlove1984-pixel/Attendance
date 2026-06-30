@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Take Attendance</h2>
+
+<form method="post">
+
+    {% csrf_token %}
+
+
+    <!-- Semester -->
+
+    <select name="semester"
+            class="form-control mb-2"
+            required>
+
+        <option value="">Select Semester</option>
+
+        {% for s in semesters %}
+        <option value="{{ s.id }}"
+            {% if request.POST.semester == s.id|stringformat:"s" %}
+                selected
+            {% endif %}>
+
+            {{ s.name }}
+
+        </option>
+        {% endfor %}
+
+    </select>
+
+
+    <!-- Subject -->
+
+    <select name="subject"
+            class="form-control mb-2"
+            required>
+
+        <option value="">Select Subject</option>
+
+        {% for s in subjects %}
+        <option value="{{ s.id }}"
+            {% if request.POST.subject == s.id|stringformat:"s" %}
+                selected
+            {% endif %}>
+
+            {{ s.code }} - {{ s.name }}
+
+        </option>
+        {% endfor %}
+
+    </select>
+
+
+    <!-- Paper -->
+
+    <select name="section"
+            class="form-control mb-2"
+            required>
+
+        <option value="">Select Paper</option>
+
+        {% for s in sections %}
+        <option value="{{ s.id }}"
+            {% if request.POST.section == s.id|stringformat:"s" %}
+                selected
+            {% endif %}>
+
+            {{ s.name }}
+
+        </option>
+        {% endfor %}
+
+    </select>
+
+
+    <!-- Component -->
+
+    <select name="component"
+            class="form-control mb-2"
+            required>
+
+        <option value="">Select Component</option>
+
+        <option value="Theory"
+            {% if request.POST.component == 'Theory' %}
+                selected
+            {% endif %}>
+            Theory
+        </option>
+
+        <option value="Tutorial"
+            {% if request.POST.component == 'Tutorial' %}
+                selected
+            {% endif %}>
+            Tutorial
+        </option>
+
+        <option value="Practical"
+            {% if request.POST.component == 'Practical' %}
+                selected
+            {% endif %}>
+            Practical
+        </option>
+
+    </select>
+
+
+    <!-- Date -->
+
+    <input type="date"
+       name="date"
+       value="{% if request.POST.date %}{{ request.POST.date }}{% else %}{{ today|date:'Y-m-d' }}{% endif %}"
+       class="form-control mb-3"
+       required>
+
+
+
+    <!-- Load Students -->
+
+    <button type="submit"
+            class="btn btn-primary mb-4">
+
+        Load Students
+
+    </button>
+
+    {% if enrollments %}
+
+<div class="card border-primary mb-3">
+
+    <div class="card-body">
+
+        <div class="form-check">
+
+            <input class="form-check-input"
+                   type="checkbox"
+                   name="double_period"
+                   id="double_period">
+
+            <label class="form-check-label fw-bold"
+                   for="double_period">
+
+                Two consecutive periods taken together
+                <span class="text-danger">
+                    (Attendance will be counted twice)
+                </span>
+
+            </label>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endif %}
+    {% if enrollments %}
+
+    <table class="table table-bordered table-striped">
+
+        <thead class="table-dark">
+
+            <tr>
+                <th>Roll</th>
+                <th>Name</th>
+                <th>Status</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for enrollment in enrollments %}
+
+            <tr>
+
+                <td>{{ enrollment.student.roll }}</td>
+
+                <td>{{ enrollment.student.name }}</td>
+
+                <td>
+
+                    <select
+                        name="status_{{ enrollment.id }}"
+                        class="form-control">
+
+                        <option value="P" selected>
+                            Present
+                        </option>
+
+                        <option value="A">
+                            Absent
+                        </option>
+
+                    </select>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <button type="submit"
+            name="save_attendance"
+            value="1"
+            class="btn btn-success">
+
+        Save Attendance
+
+    </button>
+
+    {% endif %}
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+DATABASES={
+ 'default':{
+  'ENGINE':'django.db.backends.postgresql',
+  'NAME':'attendance_db',
+  'USER':'attendance_admin',
+  'PASSWORD':'password',
+  'HOST':'192.168.1.100',
+  'PORT':'5432'
+ }
+}
