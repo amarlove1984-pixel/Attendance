@@ -1070,13 +1070,44 @@ def attendance_report(request):
     semester_id = request.GET.get('semester')
     subject_id = request.GET.get('subject')
     section_id = request.GET.get('section')
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+    month_year = request.GET.get('month_year')
 
     if semester_id:
 
         records = records.filter(
             enrollment__semester_id=semester_id
         )
+    
+        # Date range filters
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+    month_year = request.GET.get('month_year')
 
+    if start_date:
+        records = records.filter(
+            attendance_date__gte=start_date
+        )
+
+    if end_date:
+        records = records.filter(
+            attendance_date__lte=end_date
+        )
+
+    # Month-Year filter
+    if month_year:
+        try:
+            year, month = month_year.split('-')
+
+            records = records.filter(
+                attendance_date__year=int(year),
+                attendance_date__month=int(month)
+            )
+
+        except ValueError:
+            pass
+        
     if subject_id:
 
         records = records.filter(
@@ -1089,6 +1120,28 @@ def attendance_report(request):
             enrollment__section_id=section_id
         )
 
+    if start_date:
+        records = records.filter(
+            attendance_date__gte=start_date
+        )
+
+    if end_date:
+        records = records.filter(
+            attendance_date__lte=end_date
+        )
+
+    if month_year:
+        try:
+            year, month = month_year.split('-')
+
+            records = records.filter(
+                attendance_date__year=int(year),
+                attendance_date__month=int(month)
+            )
+
+        except ValueError:
+            pass
+        
     return render(
         request,
         'attendance_report.html',
@@ -1096,18 +1149,20 @@ def attendance_report(request):
             'records': records,
 
             'subjects': subjects,
-
             'semesters': semesters,
-
             'sections': sections,
 
             'selected_semester': semester_id,
-
             'selected_subject': subject_id,
-
             'selected_section': section_id,
+
+            'start_date': start_date,
+            'end_date': end_date,
+            'month_year': month_year,
         }
-    )   
+    )
+    
+       
 from django.http import HttpResponse
 import openpyxl
 
