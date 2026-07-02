@@ -23,12 +23,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%1n6%(!82h2ufkpof6e_+ux5#@(bmv*c*u62oe3!xlpin+74zt'
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "django-insecure-local-development-key"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    ".railway.app",
+    "sonarpur.up.railway.app",
+]
 
 # Application definition
 
@@ -119,7 +127,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
@@ -137,18 +144,9 @@ EMAIL_HOST_PASSWORD = 'ukynxyqotgtfdsym'
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-
 
 STATIC_URL = '/static/'
 
-
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 MEDIA_URL = '/media/'
@@ -171,5 +169,14 @@ STORAGES = {
 }
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://*.railway.app",
+    "https://sonarpur.up.railway.app",
 ]
+
+SECURE_PROXY_SSL_HEADER = (
+    "HTTP_X_FORWARDED_PROTO",
+    "https",
+)
+
+SECURE_BROWSER_XSS_FILTER = True
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
